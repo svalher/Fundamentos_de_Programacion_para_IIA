@@ -232,6 +232,262 @@ if (edad >= 18) {
 
 ## 1.4 Estructuras de control: condicionales y bucles
 
+Las estructuras de control determinan **qué instrucciones se ejecutan y cuántas veces**. Primero los condicionales (decidir) y después los bucles (repetir).
+
+### Condicional simple: `if`
+
+Ejecuta un bloque **solo si** la condición es verdadera. Si es falsa, el programa continúa sin ejecutarlo.
+
+```python
+# Python
+temperatura = 35
+if temperatura > 30:
+    print("Hace calor")
+```
+
+```csharp
+// C# - la condición va entre paréntesis
+int temperatura = 35;
+if (temperatura > 30)
+{
+    Console.WriteLine("Hace calor");
+}
+```
+
+```java
+// Java - la condición va entre paréntesis
+int temperatura = 35;
+if (temperatura > 30) {
+    System.out.println("Hace calor");
+}
+```
+
+### Condicional doble: `if` - `else`
+
+Elige entre **dos caminos**: uno si la condición es verdadera y otro si es falsa.
+
+```python
+# Python
+calificacion = 85
+if calificacion >= 70:
+    print("Aprobado")
+else:
+    print("Reprobado")
+```
+
+```csharp
+// C#
+int calificacion = 85;
+if (calificacion >= 70)
+{
+    Console.WriteLine("Aprobado");
+}
+else
+{
+    Console.WriteLine("Reprobado");
+}
+```
+
+```java
+// Java
+int calificacion = 85;
+if (calificacion >= 70) {
+    System.out.println("Aprobado");
+} else {
+    System.out.println("Reprobado");
+}
+```
+
+### Condicional múltiple: `elif` (Python) / `else if` (C# y Java)
+
+Evalúa las condiciones **en orden** y ejecuta solo el primer bloque cuya condición sea verdadera; el `else` final atrapa todo lo demás.
+
+```python
+# Python: elif
+calificacion = 85
+if calificacion >= 90:
+    print("Excelente")
+elif calificacion >= 80:
+    print("Notable")
+elif calificacion >= 70:
+    print("Aprobado")
+else:
+    print("Reprobado")
+```
+
+```csharp
+// C#: else if
+int calificacion = 85;
+if (calificacion >= 90)
+{
+    Console.WriteLine("Excelente");
+}
+else if (calificacion >= 80)
+{
+    Console.WriteLine("Notable");
+}
+else if (calificacion >= 70)
+{
+    Console.WriteLine("Aprobado");
+}
+else
+{
+    Console.WriteLine("Reprobado");
+}
+```
+
+```java
+// Java: else if
+int calificacion = 85;
+if (calificacion >= 90) {
+    System.out.println("Excelente");
+} else if (calificacion >= 80) {
+    System.out.println("Notable");
+} else if (calificacion >= 70) {
+    System.out.println("Aprobado");
+} else {
+    System.out.println("Reprobado");
+}
+```
+
+> **Salida con `calificacion = 85`:** `Notable` en los tres lenguajes. Aunque 85 también cumple `>= 70`, ese bloque ya no se evalúa: **el orden de las condiciones importa**.
+
+### Condiciones compuestas: operadores lógicos
+
+| Operación | Python | C# y Java | Resultado |
+|---|---|---|---|
+| Y (ambas verdaderas) | `and` | `&&` | Verdadero solo si ambas lo son |
+| O (al menos una) | `or` | `\|\|` | Verdadero si alguna lo es |
+| Negación | `not` | `!` | Invierte el valor |
+
+```python
+# Python
+edad = 20
+tiene_ine = True
+if edad >= 18 and tiene_ine:
+    print("Puede votar")
+if edad < 18 or not tiene_ine:
+    print("No vota")
+```
+
+```csharp
+// C#
+int edad = 20;
+bool tieneIne = true;
+if (edad >= 18 && tieneIne)
+{
+    Console.WriteLine("Puede votar");
+}
+if (edad < 18 || !tieneIne)
+{
+    Console.WriteLine("No vota");
+}
+```
+
+```java
+// Java
+int edad = 20;
+boolean tieneIne = true;
+if (edad >= 18 && tieneIne) {
+    System.out.println("Puede votar");
+}
+if (edad < 18 || !tieneIne) {
+    System.out.println("No vota");
+}
+```
+
+> **Cortocircuito:** en `A and B`, si `A` es falso, `B` ni se evalúa; en `A or B`, si `A` es verdadero, `B` ni se evalúa. Los tres lenguajes lo hacen.
+
+### Selección por valor: `match` (Python) / `switch` (C# y Java)
+
+Cuando una variable se compara contra **varios valores exactos**, es más legible que una cadena larga de `else if`.
+
+```python
+# Python 3.10 o superior
+dia = 2
+match dia:
+    case 1:
+        nombre = "Lunes"
+    case 2:
+        nombre = "Martes"
+    case _:
+        nombre = "Otro día"
+print(nombre)
+```
+
+```csharp
+// C#
+int dia = 2;
+string nombre;
+switch (dia)
+{
+    case 1:
+        nombre = "Lunes";
+        break;
+    case 2:
+        nombre = "Martes";
+        break;
+    default:
+        nombre = "Otro día";
+        break;
+}
+Console.WriteLine(nombre);
+```
+
+```java
+// Java
+int dia = 2;
+String nombre;
+switch (dia) {
+    case 1:
+        nombre = "Lunes";
+        break;
+    case 2:
+        nombre = "Martes";
+        break;
+    default:
+        nombre = "Otro día";
+        break;
+}
+System.out.println(nombre);
+```
+
+- `case _` (Python) y `default` (C# y Java) son el "en cualquier otro caso".
+- En C# y Java cada `case` termina con `break`. Python no lo necesita.
+- Si a un `case` de **Java** se le olvida el `break`, la ejecución **continúa en el siguiente case** (*fall-through*). En **C#** esto es un error de compilación (CS0163).
+
+### Operador ternario: un `if-else` en una sola línea
+
+Es una **expresión**: produce un valor que se puede asignar directamente a una variable.
+
+```python
+# Python: valor_si_verdadero if condicion else valor_si_falso
+estado = "Aprobado" if calificacion >= 70 else "Reprobado"
+```
+
+```csharp
+// C#: condicion ? valor_si_verdadero : valor_si_falso
+string estado = calificacion >= 70 ? "Aprobado" : "Reprobado";
+```
+
+```java
+// Java: condicion ? valor_si_verdadero : valor_si_falso
+String estado = calificacion >= 70 ? "Aprobado" : "Reprobado";
+```
+
+### Errores comunes con condicionales
+
+| Error | Lenguaje | Qué ocurre |
+|---|---|---|
+| `if x = 5` en lugar de `if x == 5` | Todos | `=` asigna, `==` compara. Python y Java marcan error; C# también. |
+| Comparar cadenas con `==` | Java | `==` compara referencias, no contenido. Usar `cadena.equals("texto")`. En C# y Python `==` sí compara contenido. |
+| `;` justo después del `if (...)` | C# y Java | El `if` queda vacío y el bloque siguiente **siempre** se ejecuta (C# lo avisa con una advertencia). |
+| Olvidar `:` al final de `if` / `else` | Python | `SyntaxError`. |
+| Indentación incorrecta del bloque | Python | `IndentationError`, o el código queda fuera del `if` sin avisar. |
+| Olvidar `break` en un `case` | Java / C# | Java: fall-through silencioso. C#: error CS0163. |
+
+---
+
 ### Bucle `for`
 
 ```python
@@ -325,6 +581,10 @@ class Operaciones {
 | Tipado | Dinámico | Estático (con `var` opcional) | Estático |
 | Fin de sentencia | Salto de línea | `;` | `;` |
 | Delimitación de bloques | Indentación | Llaves `{}` | Llaves `{}` |
+| Condicional múltiple | `if / elif / else` | `if / else if / else` | `if / else if / else` |
+| Operadores lógicos | `and` `or` `not` | `&&` `\|\|` `!` | `&&` `\|\|` `!` |
+| Selección por valor | `match` / `case` (3.10+) | `switch` + `break` | `switch` + `break` |
+| Ternario | `a if c else b` | `c ? a : b` | `c ? a : b` |
 | ¿Requiere clase para ejecutar? | No | Sí | Sí |
 | Compilado / interpretado | Interpretado | Compilado a IL (CLR) | Compilado a bytecode (JVM) |
 
